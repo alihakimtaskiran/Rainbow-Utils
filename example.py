@@ -1,4 +1,4 @@
-from refraction_computer import *
+from rainbow import *
 
 L1=Vacuum(5)  
 L2=H2O(2)
