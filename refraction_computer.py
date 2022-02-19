@@ -2,7 +2,7 @@ import numpy as np
 
 Ɛ=8.8541878128e-12
 
-class H20=(object):
+class H20(object):
     def __init__(self, thickness_nm):
         
         self.n=1.333-4.078e+03*1.j
