@@ -2,7 +2,9 @@
 <img src="refraction.png" width="400">
 <br>
 Refraction... It is apparently the most inspiring phenomenon of the light. Rainbow appears with refraction after the rain. We can see all of the spectrum. Wishing to simulate it, Rainbow-Utils created.
+
 ## Docs
+
 <pre>
 Continuum----|
              |----layers()
