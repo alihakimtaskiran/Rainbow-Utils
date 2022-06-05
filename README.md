@@ -3,7 +3,7 @@
 <br>
 Refraction... It is apparently the most inspiring phenomenon of the light. Rainbow appears with refraction after the rain. We can see all of the vidible spectrum. Wishing to simulate it, Rainbow-Utils was created. 
 <br>
-Rainbow-Utils is designed to simulate multi-layer thin film stacks with Transfer Matrix Method (TMM). Layers of thin materials with given $$\epsilon _0$$
+Rainbow-Utils is designed to simulate multi-layer thin film stacks with Transfer Matrix Method (TMM). Layers of thin film materials, ambient and substrate  with given ε<sub>r</sub> and µ<sub>r</sub> are simulated with Rainbow-Utils
 
 ## Docs
 
