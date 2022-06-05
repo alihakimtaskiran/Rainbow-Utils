@@ -1,7 +1,9 @@
 # Rainbow-Utils
 <img src="refraction.png" width="400">
 <br>
-Refraction... It is apparently the most inspiring phenomenon of the light. Rainbow appears with refraction after the rain. We can see all of the spectrum. Wishing to simulate it, Rainbow-Utils created.
+Refraction... It is apparently the most inspiring phenomenon of the light. Rainbow appears with refraction after the rain. We can see all of the vidible spectrum. Wishing to simulate it, Rainbow-Utils was created. 
+<br>
+Rainbow-Utils is designed to simulate multi-layer thin film stacks with Transfer Matrix Method (TMM). Layers of thin materials with given $$\epsilon _0$$
 
 ## Docs
 
@@ -33,7 +35,7 @@ Refraction... It is apparently the most inspiring phenomenon of the light. Rainb
                           |---stack()
                           |---add_substrate(arg)
                           |---add_ambient(arg)
-                          |---Radiation(wavelenght,theta=0,polarisation_mode='TM')
+                          |---Radiation(wavelenght,theta=0)
                           |---reflectance()
                           |---transmittance()
                           |---transfer_matrix()
@@ -42,3 +44,5 @@ Refraction... It is apparently the most inspiring phenomenon of the light. Rainb
                           |---__ddp(A,B)
 
 </pre>
+
+
