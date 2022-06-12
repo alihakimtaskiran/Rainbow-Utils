@@ -1,151 +1,105 @@
 import numpy as np
-
-e_0=8.85418782e-12
-mu_0=1.25663706e-6
-nn_0=np.sqrt(e_0* mu_0)
-
 class Ambient(object):
     def __init__(self, e_r=1, mu_r=1, name=''):
-        self.__name=name
-    
-        self.__e_r=np.array(e_r)
-        if isinstance(e_r, (int, float, complex)) and isinstance(mu_r, (int, float, complex)):
-            self.__e_r=np.array((e_r,))
-            self.__mu_r=np.array((mu_r,))
-        elif isinstance(e_r, (tuple, list)) and isinstance(mu_r, (tuple, list)):
-            if len(e_r)!=len(mu_r):
-                raise ValueError('# of elements contained by e_r and mu_r must be equal')
-            else:
-                self.__mu_r=np.array(mu_r)
+        if not isinstance(e_r, (int, float, complex)):
+            raise TypeError('e_r(relative permittivity) of the ambient must be a int, flat or complex')
 
-        else:
-            raise TypeError('e_r and mu_r both must be an iterable or a number')
-  
-    @property    
+        if not isinstance(mu_r, (int, float, complex)):
+            raise TypeError('mu_r(relative permeability) of the ambient must be a int, flat or complex')
+
+
+        if not isinstance(name, str):
+            raise TypeError('name must be a string')
+        
+        self.__e_r=e_r
+        self.__mu_r=mu_r
+        self.__name=name
+
+
+    @property
     def info(self):
         return self.__e_r, self.__mu_r, self.__name
-    
-    @property     
-    def depth(self):
-        return len(self.__e_r)
 
     def __repr__(self):
-        return f'Ambient:{self.__name} {self.__e_r} {self.__mu_r}'
-
-class ThinLayer(object):
-    def __init__(self, thickness, e_r=1, mu_r=1, name=''):
-        self.__name=name
-        self.__d=thickness
-        self.__e_r=np.array(e_r)
-        self.__mu_r=np.array(mu_r)
-        if isinstance(e_r, (int, float, complex)) and isinstance(mu_r, (int, float, complex)):
-            self.__e_r=np.array((e_r,))
-            self.__mu_r=np.array((mu_r,))
-        elif isinstance(e_r, (tuple, list)) and isinstance(mu_r, (tuple, list)):
-            if len(e_r)!=len(mu_r):
-                raise ValueError('# of elements contained by e_r and mu_r must be equal')
-            else:
-                self.__mu_r=np.array(mu_r)
-
-        else:
-            raise TypeError('e_r and mu_r both must be an iterable or a number')
-
-    @property        
-    def depth(self):
-        return len(self.__e_r)
-    @property    
-    def info(self):
-        return self.__d, self.__e_r, self.__mu_r, self.__name
+        return f'Ambient {self.__name} Relative Permittivity:{self.__e_r} Relative Permeability:{self.__mu_r}'
     
-    def __repr__(self):
-        return f'{self.__name} {self.__d*1e9}nm {self.__e_r} {self.__mu_r}'
-
-
 class Substrate(object):
     def __init__(self, e_r=1, mu_r=1, name=''):
+        if not isinstance(e_r, (int, float, complex)):
+            raise TypeError('e_r(relative permittivity) of the substrate must be a int, flat or complex')
+
+        if not isinstance(mu_r, (int, float, complex)):
+            raise TypeError('mu_r(relative permeability) of the substrate must be a int, flat or complex')
+
+
+        if not isinstance(name, str):
+            raise TypeError('name must be a string')
+        
+        self.__e_r=e_r
+        self.__mu_r=mu_r
         self.__name=name
-        self.__e_r=np.array(e_r)
 
-        if isinstance(e_r, (int, float, complex)) and isinstance(mu_r, (int, float, complex)):
-            self.__e_r=np.array((e_r,))
-            self.__mu_r=np.array((mu_r,))
-        elif isinstance(e_r, (tuple, list)) and isinstance(mu_r, (tuple, list)):
-            if len(e_r)!=len(mu_r):
-                raise ValueError('# of elements contained by e_r and mu_r must be equal')
-            else:
-                self.__mu_r=np.array(mu_r)
 
-        else:
-            raise TypeError('e_r and mu_r both must be an iterable or a number')
-
-    @property    
+    @property
     def info(self):
         return self.__e_r, self.__mu_r, self.__name
-    
-    @property
-    def depth(self):
-        return len(self.__e_r)
 
     def __repr__(self):
-        return f'Substrate:{self.__name} {self.__e_r} {self.__mu_r}'
-    
+        return f'Substrate {self.__name} Relative Permittivity:{self.__e_r} Relative Permeability:{self.__mu_r}'
+
+class ThinLayer(object):
+    def __init__(self, d, e_r=1, mu_r=1, name=''):
+        if not isinstance(e_r, (int, float, complex)):
+            raise TypeError('e_r(relative permittivity) of the ThinLayer must be a int, flat or complex')
+
+        if not isinstance(mu_r, (int, float, complex)):
+            raise TypeError('mu_r(relative permeability) of the ThinLayer must be a int, flat or complex')
+
+
+        if not isinstance(name, str):
+            raise TypeError('name must be a string')
+        
+        self.__d=d
+        self.__e_r=e_r
+        self.__mu_r=mu_r
+        self.__name=name
+        
+
+    @property
+    def info(self):
+        return self.__d, self.__e_r, self.__mu_r, self.__name
+
+    def __repr__(self):
+        return f'ThinLayer {self.__name} Thickness:{self.__d*1e9} nm Relative Permittivity:{self.__e_r} Relative Permeability:{self.__mu_r}'
 
 class Stack(object):
     def __init__(self):
-        self.__ambient=False
+
         self.__layers=[]
-        self.__global_depth=0
-        self.__substrate=False
-        self.__t=None
-        self.__r=None
-        self.__transfer_matrix=None
-        self.__n_a=None
-    def add_layer(self, arg):
-        if isinstance(arg, (tuple, list)):
-            for ly in arg:
-                self.add_layer(ly)
-        elif isinstance(arg, ThinLayer):
-            if not(self.__global_depth and arg.depth):
-                self.__global_depth=arg.depth
-            if self.__global_depth==arg.depth:
-                self.__layers.append(arg)
-            else:
-                raise ValueError(f'Depth of {arg.info[3]} layer must be equal to others')
-        else:
-            raise TypeError('Only Thin Layers can be added into the Stack')
-    
-    @property    
+        self.__ambient=None
+        self.__substrate=None
+        self.__eta=[]
+        self.__n=[]
+        self.__radiation=None
+        self.__tm=None
+
+
+    @property
     def stack(self):
-        return self.__ambient,self.__layers,self.__substrate
-    
-
-    def add_substrate(self,arg):
-        if isinstance(arg, Substrate):
-            if not(self.__global_depth and arg.depth):
-                self.__global_depth=arg.depth
-               
-            if arg.depth==self.__global_depth:
-                self.__substrate=arg
-            else:
-                raise ValueError('Added Substrate must have the same depth as others')
-
+        return self.__ambient, self.__layers, self.__substrate
+    def add(self, arg):
+        if isinstance(arg, (list, tuple)):
+            for argv in arg:
+                self.add(argv)
+        elif isinstance(arg, Ambient):
+            self.__ambient=arg
+        elif isinstance(arg, Substrate):
+            self.__substrate=arg
+        elif isinstance(arg, ThinLayer):
+            self.__layers.append(arg)
         else:
-            raise TypeError('An ambient must be a Substrate type')
+            raise TypeError('Only an Ambient, ThinLayer or Substrate can be added')
 
-
-    def add_ambient(self, arg):
-        if isinstance(arg, Ambient):
-            if not(self.__global_depth and arg.depth):
-                self.__global_depth=arg.depth
-               
-            if arg.depth==self.__global_depth:
-                self.__ambient=arg
-                self.__n_a=arg.info[0]*arg.info[1]
-            else:
-                raise ValueError('Added Ambient must have the same depth as others')
-
-        else:
-            raise TypeError('An ambient must be an Ambient type')
     def Radiation(self, wavelenght, theta=0, polarisation_mode='TM'):
         if polarisation_mode=='TE':
             pm=0
@@ -154,48 +108,40 @@ class Stack(object):
         else:
             raise ValueError('Polarization mode must be string of "TE" or "TM"')
         
-        self.__radiation = np.math.pi*2/wavelenght, theta, pm #wavenumber, theta, polarisaton_mode
+        self.__radiation = np.math.pi*2/wavelenght, np.sin(theta), pm #wavenumber, theta, polarisaton_mode
+   
+    def render(self):
+        self.__n_layers=len(self.__layers)    
+        self.__n=[np.sqrt(self.__ambient.info[0]*self.__ambient.info[1])]+[np.sqrt(self.__layers[i].info[2]*self.__layers[i].info[1]) for i in range(self.__n_layers)]+[np.sqrt(self.__substrate.info[0]*self.__ambient.info[1])]
+        for i in range(self.__n_layers):
+            
+            n_2=self.__n[i+1]
+            l=self.__layers[i].info[0]
+            r_12=self.__r(i, i+1)
+            r_23=self.__r(i+1, i+2)
+
+            pa=np.exp(1j*n_2*self.__radiation[0]*l)
+            na=np.conj(pa)
+            M_i=np.array([[pa+r_12*r_23*na, -r_12*pa-r_23*na], [-r_12*na- r_23*pa , na+r_12*r_23*pa]])
+            if i!=0:
+                self.__tm=np.dot(self.__tm, M_i)
+            else:
+                self.__tm=M_i
+
+
+    def __r(self, i ,j):
+        if self.__radiation[2]==0:
+            return (self.__n[i]*self.__cos_theta_(i)-self.__n[j]*self.__cos_theta_(j))/(self.__n[i]*self.__cos_theta_(i)+self.__n[j]*self.__cos_theta_(j))
+        elif self.__radiation[2]==1:
+            return (self.__n[i]*self.__cos_theta_(j)-self.__n[j]*self.__cos_theta_(i))/(self.__n[i]*self.__cos_theta_(j)+self.__n[j]*self.__cos_theta_(i))
+
+    def __cos_theta_(self, i):
+        return np.sqrt(1 - (self.__n[0]/self.__n[i]*self.__radiation[1])**2 )
 
     @property
     def reflectance(self):
-        return self.__r
-
+        return abs(self.__tm[1,0]/self.__tm[0,0])**2
+    
     @property
     def transmittance(self):
-        return self.__t
-    
-    @property
-    def transfer_matrix(self):
-        return self.__transfer_matrix
-
-    def render(self):
-        _0=self.__ambient.info
-        Z_0=np.sqrt(_0[1]/_0[1])
-        self.__transfer_matrix=self.__tmgen(0)
-        for i in range(1, len(self.__layers)):
-            self.__transfer_matrix=self.__ddp(self.__transfer_matrix,self.__tmgen(i))
-
-        gamma_a=np.sqrt(self.__n_a)*nn_0*np.cos(self.__radiation[1])
-        n_s=np.sqrt(self.__substrate.info[0]*self.__substrate.info[1])
-        gamma_s=n_s*nn_0*np.sqrt(1-(self.__n_a/n_s*np.sin(self.__radiation[1]))**2)
-
-        tm=self.transfer_matrix
-        self.__t=2*gamma_a/(gamma_a*tm[0][0]+gamma_a*gamma_s*tm[0][1]+tm[1][0]+gamma_s*tm[1][1])
-        self.__r=(gamma_a*tm[0][0] + gamma_a*gamma_s*tm[0][1] - tm[1][0] - gamma_s*tm[1][1])/(gamma_a*tm[0][0]+gamma_a*gamma_s*tm[0][1] + tm[1][0] + gamma_s*tm[1][1])
-    
-    def __tmgen(self, i):#transfer matrix generator of 'i'th layer
-        layer=self.__layers[i].info
-        n_i=np.sqrt(layer[1]*layer[2])
-        cos_theta_i=np.sqrt(1-(self.__n_a/n_i*np.sin(self.__radiation[1]))**2)
-        delta_i=self.__radiation[0]*n_i*layer[0]*cos_theta_i
-        gamma_i=n_i*nn_0*cos_theta_i
-        return np.array([[np.cos(delta_i), np.sin(delta_i)*1j/gamma_i],[1j*gamma_i*np.sin(delta_i), np.cos(delta_i)]])
-
-
-    @staticmethod
-    def __ddp(A, B):#deep dot product
-        C00=A[0][0]*B[0][0] + A[0][1]*B[1][0]
-        C01=A[0][0]*B[0][1] + A[0][1]*B[1][1]
-        C10=A[1][0]*B[0][0] + A[1][1]*B[1][0]
-        C11=A[1][0]*B[0][1] + A[1][1]*B[1][1]
-        return np.array([[C00, C01], [C10, C11]])
+        return abs(1/self.__tm[0,0])**2
