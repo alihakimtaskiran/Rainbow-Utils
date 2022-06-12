@@ -112,7 +112,8 @@ class Stack(object):
    
     def render(self):
         self.__n_layers=len(self.__layers)    
-        self.__n=[np.sqrt(self.__ambient.info[0]*self.__ambient.info[1])]+[np.sqrt(self.__layers[i].info[2]*self.__layers[i].info[1]) for i in range(self.__n_layers)]+[np.sqrt(self.__substrate.info[0]*self.__ambient.info[1])]
+        self.__eta=[np.sqrt(self.__ambient.info[1]/self.__ambient.info[0])]+[np.sqrt(self.__layers[i].info[2]/self.__layers[i].info[1]) for i in range(self.__n_layers)]+[np.sqrt(self.__substrate.info[1]/self.__substrate.info[0])]
+        self.__n=[np.sqrt(self.__ambient.info[0]*self.__ambient.info[1])]+[np.sqrt(self.__layers[i].info[2]*self.__layers[i].info[1]) for i in range(self.__n_layers)]+[np.sqrt(self.__substrate.info[0]*self.__substrate.info[1])]
         for i in range(self.__n_layers):
             
             n_2=self.__n[i+1]
@@ -130,10 +131,13 @@ class Stack(object):
 
 
     def __r(self, i ,j):
+
         if self.__radiation[2]==0:
-            return (self.__n[i]*self.__cos_theta_(i)-self.__n[j]*self.__cos_theta_(j))/(self.__n[i]*self.__cos_theta_(i)+self.__n[j]*self.__cos_theta_(j))
+            return (self.__eta[j]/self.__cos_theta_(j)-self.__eta[i]/self.__cos_theta_(i))/(self.__eta[j]/self.__cos_theta_(j)+self.__eta[i]/self.__cos_theta_(i))
+        
         elif self.__radiation[2]==1:
-            return (self.__n[i]*self.__cos_theta_(j)-self.__n[j]*self.__cos_theta_(i))/(self.__n[i]*self.__cos_theta_(j)+self.__n[j]*self.__cos_theta_(i))
+            return (self.__eta[j]*self.__cos_theta_(j)-self.__eta[i]*self.__cos_theta_(i))/(self.__eta[j]*self.__cos_theta_(j)+self.__eta[i]*self.__cos_theta_(i))
+        
 
     def __cos_theta_(self, i):
         return np.sqrt(1 - (self.__n[0]/self.__n[i]*self.__radiation[1])**2 )
@@ -145,3 +149,6 @@ class Stack(object):
     @property
     def transmittance(self):
         return abs(1/self.__tm[0,0])**2
+
+    def test(self):
+        print(abs(self.__r(2,1))**2)
