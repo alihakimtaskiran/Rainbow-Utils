@@ -149,6 +149,7 @@ class Stack(object):
     @property
     def transmittance(self):
         return abs(1/self.__tm[0,0])**2
-
-    def test(self):
-        print(abs(self.__r(2,1))**2)
+    
+    @property
+    def TransferMatrix(self):
+        return self.__tm
