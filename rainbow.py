@@ -145,6 +145,10 @@ class Stack(object):
     @property
     def reflectance(self):
         return abs(self.__tm[1,0]/self.__tm[0,0])**2
+    
+    @property
+    def transmittance(self):
+        return abs(1/self.__tm[0,0])**2
 
     @property
     def TransferMatrix(self):
