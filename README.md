@@ -31,17 +31,12 @@ Rainbow-Utils is designed to simulate multi-layer thin film stacks with Transfer
 |
 |----Stack(object)--------|
                           |---__init__()
-                          |---add_layer(arg)
                           |---stack
-                          |---add_substrate(arg)
-                          |---add_ambient(arg)
+                          |---add(arg)
                           |---Radiation(wavelenght,theta=0)
                           |---reflectance
                           |---transmittance
-                          |---transfer_matrix
                           |---render()
-                          |---__tmgen(i)
-                          |---__ddp(A,B)
 
 </pre>
 
