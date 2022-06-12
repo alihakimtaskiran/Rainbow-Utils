@@ -111,11 +111,12 @@ class Stack(object):
         self.__radiation = np.math.pi*2/wavelenght, np.sin(theta), pm #wavenumber, theta, polarisaton_mode
    
     def render(self):
-        self.__n_layers=len(self.__layers)    
+        self.__n_layers=len(self.__layers)
+        _= self.__n_layers-1
         self.__eta=[np.sqrt(self.__ambient.info[1]/self.__ambient.info[0])]+[np.sqrt(self.__layers[i].info[2]/self.__layers[i].info[1]) for i in range(self.__n_layers)]+[np.sqrt(self.__substrate.info[1]/self.__substrate.info[0])]
         self.__n=[np.sqrt(self.__ambient.info[0]*self.__ambient.info[1])]+[np.sqrt(self.__layers[i].info[2]*self.__layers[i].info[1]) for i in range(self.__n_layers)]+[np.sqrt(self.__substrate.info[0]*self.__substrate.info[1])]
-        for i in range(self.__n_layers):
-            
+        for i in range(_,-1,-1):
+            print(i,i+1,i+2)
             n_2=self.__n[i+1]
             l=self.__layers[i].info[0]
             r_12=self.__r(i, i+1)
@@ -124,7 +125,7 @@ class Stack(object):
             pa=np.exp(1j*n_2*self.__radiation[0]*l)
             na=np.conj(pa)
             M_i=np.array([[pa+r_12*r_23*na, -r_12*pa-r_23*na], [-r_12*na- r_23*pa , na+r_12*r_23*pa]])
-            if i!=0:
+            if i!=_:
                 self.__tm=np.dot(self.__tm, M_i)
             else:
                 self.__tm=M_i
@@ -145,11 +146,7 @@ class Stack(object):
     @property
     def reflectance(self):
         return abs(self.__tm[1,0]/self.__tm[0,0])**2
-    
-    @property
-    def transmittance(self):
-        return abs(1/self.__tm[0,0])**2
-    
+
     @property
     def TransferMatrix(self):
         return self.__tm
