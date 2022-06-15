@@ -41,4 +41,10 @@ Rainbow-Utils is designed to simulate multi-layer thin film stacks with Transfer
 
 </pre>
 
+## References
+[1] Liu, Xiaoze, "Control of Exciton Photon Coupling in Nano-structures" (2014). CUNY Academic Works.
+https://academicworks.cuny.edu/gc_etds/491
+
+
+[2] Saleh, B. E. A., & Teich, M. C. (1991). Fundamentals of photonics. New York: Wiley.
 
