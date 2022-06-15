@@ -149,7 +149,7 @@ class Stack(object):
     
     @property
     def transmittance(self):
-        return (abs(1/self.__tm[0,0])**2 )#*(self.__n[self.__n_layers+1]*self.__cos_theta_(self.__n_layers+1))/(self.__cos_theta_(0)*self.__n[0])
+        return abs(1/self.__tm[0,0])**2 
 
     @property
     def TransferMatrix(self):
