@@ -11,13 +11,11 @@ Rainbow-Utils is designed to simulate multi-layer thin film stacks with Transfer
 |----Ambient(object)------|
 |                         |---__init__(e_r=1,mu_r=1,name='')
 |                         |---info
-|                         |---depth
 |                         |---__repr__()
 |
 |
 |----ThinLayer(object)----|
 |                         |---__init__(thickness,e_r=1,mu_r=1,name='')
-|                         |---depth
 |                         |---info
 |                         |---__repr__()
 |
@@ -25,7 +23,6 @@ Rainbow-Utils is designed to simulate multi-layer thin film stacks with Transfer
 |----Substrate(object)----|
 |                         |---__init__(e_r=1,mu_r=1,name='')
 |                         |---info
-|                         |---depth
 |                         |---__repr__()
 |
 |
