@@ -1,4 +1,5 @@
 import numpy as np
+
 class Ambient(object):
     def __init__(self, e_r=1, mu_r=1, name=''):
         if not isinstance(e_r, (int, float, complex)):
@@ -123,7 +124,7 @@ class Stack(object):
 
             pa=np.exp(1j*n_2*self.__radiation[0]*l)
             na=np.conj(pa)
-            M_i=np.array([[pa+r_12*r_23*na, -r_12*pa-r_23*na], [-r_12*na- r_23*pa , na+r_12*r_23*pa]])
+            M_i=1/(1-r_23)/(1-r_12)*np.array([[pa+r_12*r_23*na, -r_12*pa-r_23*na], [-r_12*na- r_23*pa , na+r_12*r_23*pa]])
             if i!=_:
                 self.__tm=np.dot(self.__tm, M_i)
             else:
@@ -148,7 +149,7 @@ class Stack(object):
     
     @property
     def transmittance(self):
-        return abs(1/self.__tm[0,0])**2
+        return (abs(1/self.__tm[0,0])**2 )#*(self.__n[self.__n_layers+1]*self.__cos_theta_(self.__n_layers+1))/(self.__cos_theta_(0)*self.__n[0])
 
     @property
     def TransferMatrix(self):
