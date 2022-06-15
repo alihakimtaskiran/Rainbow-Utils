@@ -54,7 +54,7 @@ Rainbow-Utils is designed to simulate multi-layer thin film stacks with Transfer
 ### Stack()
 It composes the materials. Thin film layers are stacked on a substrate in an ambient with *Stack()* object.
 
-- **add(arg)** : Adds a material layer, substrate or ambient to stack object. It may take Ambient, ThinLayer, Substrate or list of these objects Due to the recursion of the functiton, it may take list of tuple of list of materials; namely [A,[B, C, [D, E], F], G, H, I] 
+- **add(arg)** : Adds a material layer, substrate or ambient to stack object. It may take Ambient, ThinLayer, Substrate or list of these objects Due to the recursion of the functiton, it may take list of tuple of list of materials; namely [A,(B, C, [D, E], F), G, H, I] 
 - **stack** : It returns list of repr of added materials.
 - **Radiation(wavelenght, theta=0, polarisation_mode='TM')** : It defines wavelenght, angle and polarisation mode of the radiation. **wavelenght** is a float and units of it is <u>meters</u>. **theta** is incident angle and a float, units of it is <radians</u>. **polarisation_mode** may take whether "TM" or "TE" strings.
 - **render()** : Computes reflectivity, transmittance and transfer matrix of the multilayer media. Don't execute it before calling *Radiation()*
