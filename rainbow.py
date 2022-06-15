@@ -116,7 +116,7 @@ class Stack(object):
         _= self.__n_layers-1
         self.__eta=[np.sqrt(self.__ambient.info[1]/self.__ambient.info[0])]+[np.sqrt(self.__layers[i].info[2]/self.__layers[i].info[1]) for i in range(self.__n_layers)]+[np.sqrt(self.__substrate.info[1]/self.__substrate.info[0])]
         self.__n=[np.sqrt(self.__ambient.info[0]*self.__ambient.info[1])]+[np.sqrt(self.__layers[i].info[2]*self.__layers[i].info[1]) for i in range(self.__n_layers)]+[np.sqrt(self.__substrate.info[0]*self.__substrate.info[1])]
-        for i in range(_,-1,-1):
+        for i in range(_,-1,-1):##From Ref[1]
             n_2=self.__n[i+1]
             l=self.__layers[i].info[0]
             r_12=self.__r(i, i+1)
@@ -131,7 +131,7 @@ class Stack(object):
                 self.__tm=M_i
 
 
-    def __r(self, i ,j):
+    def __r(self, i ,j):##From Ref[2]
 
         if self.__radiation[2]==0:
             return (self.__eta[j]/self.__cos_theta_(j)-self.__eta[i]/self.__cos_theta_(i))/(self.__eta[j]/self.__cos_theta_(j)+self.__eta[i]/self.__cos_theta_(i))
