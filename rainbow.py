@@ -141,7 +141,7 @@ class Stack(object):
         
 
     def __cos_theta_(self, i):
-        return np.sqrt(1 - (self.__n[0]/self.__n[i]*self.__radiation[1])**2 )
+        return np.sqrt(1 - (self.__n[0].real/self.__n[i].real*self.__radiation[1])**2 )
 
     @property
     def reflectance(self):
