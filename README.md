@@ -60,7 +60,7 @@ It composes the materials. Thin film layers are stacked on a substrate in an amb
 - **render()** : Computes reflectivity, transmittance and transfer matrix of the multilayer media. Don't execute it before calling *Radiation()*
 - **reflectance** : Returns rendered reflectivity parameter. Don't execute it before calling *render()*
 - **transmittance** : Returns rendered reflectivity parameter. Don't execute it before calling *render()*
-- **TransmferMatrix** : Returns rendered transfer matrix parameter. Don't execute it before calling *render()*
+- **TransferMatrix** : Returns rendered transfer matrix parameter. Don't execute it before calling *render()*
 
 <hr>
 
